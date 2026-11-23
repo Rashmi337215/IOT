@@ -1,40 +1,37 @@
-// C++ code
-//
+// Define the pin where the sensor is connected
+const int sensorPin = A1; // Analog pin A1 for the soil moisture sensor
+const int ledPin = 13; // Digital pin 13 for an alert LED (optional)
 
-const int sensorPin=A1;
-const int ledPin=13;
-const int buzzPin=12;
+// Define moisture threshold values
+const int dryThreshold = 800; // Higher values indicate dry soil
+const int wetThreshold = 500; // Lower values indicate wet soil
 
-const int dryThreshold=800;
-const int wetThreshold=500;
-
-
-
-void setup()
-{
+void setup() {
+  // Initialize the serial communication
   Serial.begin(9600);
-  pinMode(ledPin,INPUT);
-  pinMode(buzzPin,OUTPUT);
-  Serial.println("SoilMoistureSensorTestStarting..");
-  
+
+  // Set the LED pin as output
+  pinMode(ledPin, OUTPUT);
+
+  Serial.println("Soil Moisture Sensor Test Starting...");
 }
 
-void loop()
-{
-  int sensorValue=analogRead(sensorPin);
-  Serial.print("Soil Moisture level");
+void loop() {
+  // Read the sensor value
+  int sensorValue = analogRead(sensorPin);
+
+  // Print the sensor value for debugging
+  Serial.print("Soil Moisture Level: ");
   Serial.println(sensorValue);
-  
-  if(sensorValue>dryThreshold){
-    Serial.println("Soil is dry.Watering required");
-  digitalWrite(ledPin,HIGH);
-  digitalWrite(buzzPin,HIGH);
-}
-  else
-  {
-    Serial.println("Soil is wet");
-    digitalWrite(ledPin,LOW);
-    digitalWrite(buzzPin,LOW);
+
+  // Check soil moisture levels and take action
+  if (sensorValue > dryThreshold) {
+    Serial.println("Soil is DRY. Watering required.");
+    digitalWrite(ledPin, HIGH); // Turn on the LED as an alert
+  }
+  else {
+    Serial.println("Soil is WET.");
+    digitalWrite(ledPin, LOW); // Turn off the LED
   }
 }
         
